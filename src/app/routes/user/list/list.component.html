@@ -1,0 +1,135 @@
+<div class="content__title">
+  <h1>
+    <small>对用户信息进行管理、操作。</small>
+  </h1>
+</div>
+<full-content (fullscreenChange)="fullChange($event)">
+  <nz-card>
+    <div nz-row class="mb-md">
+      <div nz-col nzSpan="12">
+        <form nz-form [nzLayout]="'inline'">
+          <nz-form-item>
+            <nz-form-label nzFor="search">用户</nz-form-label>
+            <nz-form-control>
+              <input nz-input [(ngModel)]="args.search" name="search" id="search">
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+              <button nz-button [nzType]="'primary'" (click)="st.load();this.selectedRows=''" [nzLoading]="loading">查找</button>
+              <!-- <button nz-button (click)="st.load({_allow_anonymous: true})" [disabled]="http.loading">重置</button> -->
+              <button nz-button (click)="args = {};st.reset();" [disabled]="loading">重置</button>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+      </div>
+      <div nz-col nzSpan="12">
+        <div class="text-right">
+
+          <button nz-button (click)="add(addModalContent)" [nzType]="'primary'">
+            <i class="anticon anticon-plus"></i>
+            <span>新建</span>
+          </button>
+          &nbsp;&nbsp;
+          <nz-dropdown>
+            <button nz-button nz-dropdown>
+              <span>导出</span>
+              <i class="anticon anticon-down"></i>
+            </button>
+            <ul nz-menu>
+              <li nz-menu-item (click)="st.export()">&nbsp;当前页&nbsp;</li>
+              <li nz-menu-item (click)="st.export(exportData, { filename: '用户列表.xlsx', sheetname: 'user' })">
+                &nbsp;全部数据&nbsp;</li>
+              <!-- <li nz-menu-item>JSON</li>
+              <li nz-menu-item>PNG</li> -->
+            </ul>
+          </nz-dropdown>
+          <button nz-button [nzType]="'default'" full-toggle class="ml-sm">全屏</button>
+        </div>
+      </div>
+    </div>
+    <!-- 批量操作 -->
+    <ng-container *ngIf="selectedRows.length > 0">
+      <button nz-button class="ml-sm">批量操作</button>
+      <nz-dropdown [nzPlacement]="'bottomLeft'">
+        <button nz-button nz-dropdown class="ml-sm">
+          更多操作
+          <i class="anticon anticon-down"></i>
+        </button>
+        <ul nz-menu>
+          <li nz-menu-item (click)="activated(1)">激活</li>
+          <li nz-menu-item (click)="activated(0)">取消激活</li>
+          <li nz-menu-item (click)="remove()">删除</li>
+          <li nz-menu-item (click)="approval()">批量审批</li>
+        </ul>
+      </nz-dropdown>
+    </ng-container>
+    <div class="my-md">
+      <nz-alert [nzType]="'info'" [nzShowIcon]="true" [nzMessage]="message">
+        <ng-template #message>
+          已选择
+          <strong class="text-primary">{{selectedRows.length}}</strong> 项
+          <!-- &nbsp;&nbsp; 服务调用总计
+          <strong>{{totalCallNo}}</strong> 万 -->
+          <a *ngIf="totalCallNo > 0" (click)="st.clearCheck()" class="ml-lg">清空</a>
+        </ng-template>
+      </nz-alert>
+    </div>
+    <st #st [data]="url"   [res]="res" [req]="{params: args,reName:{ps:'size',pi:'page'}}"  [page]="{zeroIndexed:true}"
+      [total]="total" [ps]="ps" [columns]="columns" [scroll]="scroll" (checkboxChange)="checkboxChange($event)" [multiSort]=stSort > 
+      <ng-template st-row="events" let-item let-index="index">
+        <g2-mini-bar height="15" theme="mini" color="#999" borderWidth="3" [padding]="[0, 0, 0, 0]" [data]="events"></g2-mini-bar>
+      </ng-template>
+    </st>
+  </nz-card>
+</full-content>
+<!-- 添加用户 -->
+<!-- <ng-template #modalContent>
+  <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+    <nz-form-item>
+      <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="login">
+        账号
+      </nz-form-label>
+      <nz-form-control nzXs="24" nzSm="12" nzHasFeedback>
+        <input nz-input [(ngModel)]="user.login" formControlName="login" id="login" placeholder="请输入登陆账号">
+        <nz-form-explain *ngIf="validateForm.get('login').dirty && validateForm.get('login').errors">请输入账号！</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+      <nz-form-label nzXs="24" nzSm="7" nzRequired nzFor="email">
+        邮箱
+        <em>
+          <nz-tooltip nzTitle="请使用真实邮箱，确保能收到邮件。">
+            <i nz-tooltip class="anticon anticon-info-circle-o"></i>
+          </nz-tooltip>
+        </em>
+      </nz-form-label>
+      <nz-form-control nzXs="24" nzSm="12" nzHasFeedback>
+        <input nz-input [(ngModel)]="user.email" formControlName="email" name="email" placeholder="请输入邮箱地址" id="email">
+        <nz-form-explain *ngIf="validateForm.get('email').dirty && validateForm.get('email').errors">请输入邮箱地址!</nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</ng-template> -->
+
+<!-- 添加用户 -->
+<ng-template #addModalContent>
+  <sf #sf mode="edit" [schema]="schema" [ui]="ui" [formData]="i" button="none">
+    <div class="modal-footer">
+      <button nz-button type="button" (click)="close()">关闭</button>
+      <button nz-button type="submit" [nzType]="'primary'" (click)="submitAdd(sf.value)" [disabled]="!sf.valid" [nzLoading]="http.loading">保存</button>
+    </div>
+  </sf>
+</ng-template>
+
+
+<!-- 更新用户  -->
+<ng-template #updateModalContent>
+  <sf #sf mode="edit" [schema]="updateSchema" [ui]="ui" [formData]="i" button="none">
+    <div class="modal-footer">
+      <button nz-button type="button" (click)="close()">关闭</button>
+      <button nz-button type="submit" [nzType]="'primary'" (click)="submitUpdate(sf.value)" [disabled]="!sf.valid" [nzLoading]="http.loading">保存</button>
+    </div>
+  </sf>
+</ng-template>
