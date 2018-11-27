@@ -1,25 +1,25 @@
 ###
 1、风格指南：参照 https://angular.cn/guide/styleguide
 
-总体命名原则：
-    风格 02-01
-        坚持所有符号使用一致的命名规则。
-        坚持遵循同一个模式来描述符号的特性和类型。推荐的模式为 feature.type.ts。
-使用点和横杠来分隔文件名
-    风格 02-02
-        坚持 在描述性名字中，用横杠来分隔单词。
-        坚持使用点来分隔描述性名字和类型。
-        坚持遵循先描述组件特性，再描述它的类型的模式，对所有组件使用一致的类型命名规则。推荐的模式为 feature.type.ts。
-        坚持使用惯用的后缀来描述类型，包括 *.service、*.component、*.pipe、.module、.directive。 必要时可以创建更多类型名，但必须注意，不要创建太多。
-符号名与文件名
-    风格 02-03
-        坚持为所有东西使用一致的命名约定，以它们所代表的东西命名。
-        坚持使用大写驼峰命名法来命名类。符号名匹配它所在的文件名。
-        坚持在符号名后面追加约定的类型后缀（例如 Component、Directive、Module、Pipe、Service）。
-        坚持在符号名后面追加约定的类型后缀（例如 .component.ts、.directive.ts、.module.ts、.pipe.ts、.service.ts）。
-        坚持在文件名后面追加约定的类型后缀（例如 .component.ts、.directive.ts、.module.ts、.pipe.ts、.service.ts）。
-服务名
-    风格 02-04
+总体命名原则：  
+    风格 02-01  
+        坚持所有符号使用一致的命名规则。  
+        坚持遵循同一个模式来描述符号的特性和类型。推荐的模式为 feature.type.ts。  
+使用点和横杠来分隔文件名  
+    风格 02-02  
+        坚持 在描述性名字中，用横杠来分隔单词。  
+        坚持使用点来分隔描述性名字和类型。  
+        坚持遵循先描述组件特性，再描述它的类型的模式，对所有组件使用一致的类型命名规则。推荐的模式为 feature.type.ts。  
+        坚持使用惯用的后缀来描述类型，包括 *.service、*.component、*.pipe、.module、.directive。 必要时可以创建更多类型名，但必须注意，不要创建太多。  
+符号名与文件名  
+    风格 02-03  
+        坚持为所有东西使用一致的命名约定，以它们所代表的东西命名。  
+        坚持使用大写驼峰命名法来命名类。符号名匹配它所在的文件名。  
+        坚持在符号名后面追加约定的类型后缀（例如 Component、Directive、Module、Pipe、Service）。  
+        坚持在符号名后面追加约定的类型后缀（例如 .component.ts、.directive.ts、.module.ts、.pipe.ts、.service.ts）。  
+        坚持在文件名后面追加约定的类型后缀（例如 .component.ts、.directive.ts、.module.ts、.pipe.ts、.service.ts）。  
+服务名  
+    风格 02-04  
         坚持使用一致的规则命名服务，以它们的特性来命名。
         坚持为服务的类名加上 Service 后缀。 例如，获取数据或英雄列表的服务应该命名为 DataService 或 HeroService。
 引导
